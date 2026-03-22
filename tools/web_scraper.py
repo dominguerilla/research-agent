@@ -73,15 +73,20 @@ def scrape_url(url: str) -> str:
     # on each found tag.
     #
     # YOUR CODE HERE
+    for tag in soup.find_all(["script", "style", "nav", "footer", "header"]):
+        tag.decompose()
 
     # TODO: Select the main content element.
     # Try soup.find("article"), then soup.find("main"), then soup.find("body").
     # Fall back to str(soup) if none found.
     #
     # YOUR CODE HERE
+    main_content = soup.find("article") or soup.find("main") or soup.find("body")
+    main_content = str(soup) if main_content == None else main_content
 
     # TODO: Convert the selected element to markdown using markdownify.
     # Return the markdown string.
     #
     # YOUR CODE HERE
-    raise NotImplementedError("Implement tag removal + content selection in tools/web_scraper.py")
+    return md(str(main_content), heading_style="ATX") 
+    
