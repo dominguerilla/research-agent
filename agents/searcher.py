@@ -59,8 +59,19 @@ def run_searcher(state: ResearchState) -> dict:
         #   2. Add result["url"] to seen_urls
         #   3. Append a SearchResult TypedDict to all_results
         #
-        # YOUR CODE HERE
-        pass
+        results = web_search(query)
+        for result in results:
+            if result["url"] in seen_urls:
+                continue
+            seen_urls.add(result["url"])
+            all_results.append(
+                    SearchResult(
+                        title=result["title"],
+                        url=result["url"],
+                        snippet=result["snippet"]
+                        )
+                    )
 
-    # TODO: Return {"search_results": all_results}
-    raise NotImplementedError("Implement tool call + dedup in agents/searcher.py")
+        
+
+    return {"search_results": all_results}

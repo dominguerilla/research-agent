@@ -54,13 +54,6 @@ def web_search(query: str) -> list[dict]:
         Each dict has keys: title (str), url (str), snippet (str).
         Returns empty list on error.
     """
-    # TODO: Call _tool.run(query) to get raw string output.
-    # Parse it with ast.literal_eval() inside a try/except.
-    # Normalise each item to {"title": ..., "url": ..., "snippet": ...}.
-    # DuckDuckGoSearchResults keys are: "title", "link" (use as url), "snippet".
-    # Return the normalised list (or [] on any error).
-    #
-    # YOUR CODE HERE
     try:
         raw_results = _tool.run(query)
         items = ast.literal_eval(raw_results)

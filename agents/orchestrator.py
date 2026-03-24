@@ -59,12 +59,6 @@ def run_orchestrator(state: ResearchState) -> dict:
     response = llm.invoke([HumanMessage(content=prompt)])
     raw_text = response.content
 
-    # TODO: Parse raw_text into a List[str] of search queries.
-    # The model outputs one query per line with optional numbering/bullets.
-    # Strip prefixes, filter blank lines, return the list as search_queries.
-    #
-
-    # YOUR CODE HERE
     # According to docs online about AIMessage, raw_text is str | list[str | dict] | None
     if not raw_text:
         # I'm not sure in what scenarios an AIMessage's content would be null.
@@ -72,10 +66,6 @@ def run_orchestrator(state: ResearchState) -> dict:
         raise Exception("Response content is null!")
     stripped_list = [ line.lstrip("1234567890.-* ").strip() for line in raw_text.splitlines() if line.strip()]
 
-
-    # TODO: Return a dict with:
-    #   "search_queries": your parsed list
-    #   "messages": [AIMessage(content=raw_text)]   ← appended to trace via add_messages reducer
     return {
         "search_queries" : stripped_list,
         "messages" : [AIMessage(content=raw_text)]
