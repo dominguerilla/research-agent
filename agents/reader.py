@@ -60,17 +60,12 @@ def run_reader(state: ResearchState) -> dict:
     sources: list[ScrapedSource] = []
 
     for result in state["search_results"]:
-        # TODO: Wrap everything below in try/except Exception — skip on failure.
-        #
-        # 1. raw_text = scrape_url(result["url"])   ← already calls your tools/web_scraper.py
-        # 2. Build a summarisation prompt from prompt_template using
-        #    .format(research_question=..., content=raw_text[:4000])
-        #    (truncate to avoid blowing the context window)
-        # 3. Call llm.invoke([HumanMessage(content=prompt)]).content → summary string
-        # 4. Append ScrapedSource(url=result["url"], summary=summary, raw_length=len(raw_text))
-        #
-        # YOUR CODE HERE
-        pass
+        try:
+            raw_text = scrape_url(result["url"])
+            prompt = prompt_template.format(research_question=state["research_question"], content=raw_text[:4000])
+            summary = llm.invoke([HumanMessage(content=prompt)]).content
+            sources.append(ScrapedSource(url=result["url"], summary=summary, raw_length=len(raw_text)))
+        except Exception as e:
+            pass
 
-    # TODO: Return {"sources": sources}
-    raise NotImplementedError("Implement scrape + summarise loop in agents/reader.py")
+    return {"sources" : sources}
