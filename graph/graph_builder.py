@@ -53,18 +53,15 @@ def build_graph():
     # --- Entry point ---
     graph.add_edge(START, "orchestrator")
 
-    # --- TODO: Wire the linear chain ---
-    # Connect orchestrator → searcher → reader → critic in sequence.
-    # Syntax: graph.add_edge("source", "target")
-    #
-    # YOUR CODE HERE
+    graph.add_edge("orchestrator","searcher")
+    graph.add_edge("searcher","reader")
+    graph.add_edge("reader","critic")
 
-    # --- TODO: Wire the conditional edge from critic ---
-    # After the critic runs, call should_revise_or_write(state) to decide next node.
-    # should_revise_or_write returns either "searcher" or "writer" (strings).
-    # Use graph.add_conditional_edges with a mapping dict.
-    #
-    # YOUR CODE HERE
+    graph.add_conditional_edges(
+            "critic",
+            should_revise_or_write,
+            {"searcher":"searcher", "writer":"writer"}
+            )
 
     # --- Terminal edge (given) ---
     graph.add_edge("writer", END)
