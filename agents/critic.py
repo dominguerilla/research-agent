@@ -77,7 +77,8 @@ def run_critic(state: ResearchState) -> dict:
 
     return {"critique" : critique, "iteration" : new_iteration, "messages" : [AIMessage(content=raw_text)]}
 
-def find_verdict(lines: list[str]):
+
+def find_verdict(lines: list[str]) -> tuple[bool, int | None]:
     passed = False
     verdict_line = None
     for i,line in enumerate(lines):
@@ -92,24 +93,26 @@ def find_verdict(lines: list[str]):
             break
     return (passed, verdict_line)
 
-def find_feedback_and_missing(start_idx: int | None, lines: list[str]):
+
+def find_feedback_and_missing(start_idx: int | None, lines: list[str]) -> tuple[list[str], int | None]:
     feedback_lines = []
     missing_idx = None
     if start_idx is not None:
         for i, line in enumerate(lines[start_idx + 1:]):
             if line.strip().upper().startswith("MISSING:"):
-                missing_idx = i
+                missing_idx = start_idx + 1 + i
                 break
             else:
                 feedback_lines.append(line)
 
     return (feedback_lines, missing_idx)
 
-def get_missing_topics(idx: int | None, lines: list[str]):
+
+def get_missing_topics(idx: int | None, lines: list[str]) -> list[str]:
     missing_topics = []
     if idx is not None:
         missing_line = lines[idx]
         colon_idx = missing_line.index(":")
-        missing_topics = [topic.strip() for topic in missing_line[colon_idx:].split(",") if topic.strip()]
+        missing_topics = [topic.strip() for topic in missing_line[colon_idx + 1:].split(",") if topic.strip()]
 
     return missing_topics
