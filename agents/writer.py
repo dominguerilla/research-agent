@@ -48,16 +48,17 @@ def run_writer(state: ResearchState) -> dict:
     dict
         Keys: final_report (str)
     """
-    # TODO: Implement the full writer agent.
-    #
-    # Steps:
-    # 1. llm = get_llm(temperature=0.5)
-    # 2. prompt_template = _PROMPT_PATH.read_text()
-    # 3. Build sources_text from state["sources"]
-    # 4. Get critique_feedback from state["critique"]["feedback"] (or "N/A" if None)
-    # 5. Format prompt with research_question, sources_text, critique_feedback
-    # 6. report_text = llm.invoke([HumanMessage(content=prompt)]).content
-    # 7. Return {"final_report": report_text}
-    #
-    # YOUR CODE HERE
-    raise NotImplementedError("Implement run_writer in agents/writer.py")
+    llm = get_llm(temperature=0.5)
+    prompt_template = _PROMPT_PATH.read_text()
+
+    sources_text = "\n\n".join(
+        f"### {s['url']}\n{s['summary']}" for s in state["sources"]
+    )
+    critique_feedback = state["critique"]["feedback"] if state["critique"] else "N/A"
+    prompt = prompt_template.format(
+        research_question=state["research_question"],
+        sources_text=sources_text,
+        critique_feedback=critique_feedback
+    )
+    report_text = llm.invoke([HumanMessage(content=prompt)]).content
+    return {"final_report": report_text}
