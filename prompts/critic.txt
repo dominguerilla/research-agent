@@ -16,9 +16,17 @@ FAILED
 [Your feedback here explaining what is missing or inadequate]
 MISSING: topic1, topic2, topic3
 
-Criteria for PASSED:
+Criteria for PASSED (ALL must be true):
 - At least 3 substantive sources with relevant content
 - Key aspects of the question are addressed with specific details
 - Multiple perspectives or data points are represented
+- Sources contain concrete facts (numbers, names, dates, technical terms) — not just generic overviews
+- Each source summary adds distinct information not already covered by the others
+
+On the FIRST iteration, lean toward FAILED and suggest deeper angles to explore.
+
+When issuing FAILED, your MISSING line should list specific sub-topics that would
+strengthen the research (e.g. "MISSING: transformer attention mechanism details,
+training compute costs, RLHF fine-tuning process").
 
 Be decisive. Output only the structured response above, nothing else.
