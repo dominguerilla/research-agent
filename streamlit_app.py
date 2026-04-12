@@ -50,6 +50,10 @@ with st.sidebar:
         "4. *Critic* judges whether the evidence is enough\n"
         "5. *Writer* produces a final cited report"
     )
+    st.divider()
+    st.markdown(
+        "[View source on GitHub](https://github.com/dominguerilla/research-agent)"
+    )
 
 question = st.text_area(
     "Research question",
