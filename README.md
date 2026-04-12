@@ -1,3 +1,20 @@
+---
+title: Multi-Agent Research Assistant
+emoji: 🔍
+colorFrom: blue
+colorTo: purple
+sdk: streamlit
+sdk_version: 1.41.1
+python_version: 3.10
+app_file: streamlit_app.py
+pinned: false
+short_description: LangGraph multi-agent research pipeline
+tags:
+  - langgraph
+  - agents
+  - research
+---
+
 # Multi-Agent Research Assistant
 *This is a small pet project to learn the basics of some common agentic LLM technlogies. Claude Code created the scaffolding + test suites--I am the one that implemented the stubs.*
 
