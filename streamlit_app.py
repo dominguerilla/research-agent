@@ -31,12 +31,28 @@ st.set_page_config(
 )
 
 st.title("Multi-Agent Research Assistant")
+provider = os.getenv("LLM_PROVIDER", "ollama").lower()
+if provider == "huggingface":
+    model = os.getenv("HF_MODEL", "meta-llama/Llama-3.1-8B-Instruct")
+else:
+    model = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
+st.markdown(f"**Model:** `{provider}/{model}`")
 st.caption(
     "A LangGraph pipeline — orchestrator, searcher, reader, critic, refiner, writer — "
     "that turns a question into a cited markdown report."
 )
 
+st.warning(
+    "This agent may hallucinate. Cited URLs in the report may not exist — "
+    "always verify sources before relying on them.",
+    icon="⚠️",
+)
+
+st.divider()
 with st.sidebar:
+    st.markdown(
+        "[View source on GitHub](https://github.com/dominguerilla/research-agent)"
+    )
     st.header("Settings")
     max_iterations = st.slider(
         "Max critique-and-revise cycles",
@@ -54,23 +70,6 @@ with st.sidebar:
         "4. *Critic* judges whether the evidence is enough\n"
         "5. *Refiner* rewrites queries to fill gaps identified by the critic (on loop-back)\n"
         "6. *Writer* produces a final cited report"
-    )
-    st.divider()
-    provider = os.getenv("LLM_PROVIDER", "ollama").lower()
-    if provider == "huggingface":
-        model = os.getenv("HF_MODEL", "meta-llama/Llama-3.1-8B-Instruct")
-    else:
-        model = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
-    st.markdown(f"**Model:** `{provider}/{model}`")
-    st.divider()
-    st.warning(
-        "This agent may hallucinate. Cited URLs in the report may not exist — "
-        "always verify sources before relying on them.",
-        icon="⚠️",
-    )
-    st.divider()
-    st.markdown(
-        "[View source on GitHub](https://github.com/dominguerilla/research-agent)"
     )
 
 question = st.text_area(
