@@ -13,11 +13,15 @@ Deploy on Hugging Face Spaces:
          HF_MODEL     = meta-llama/Llama-3.1-8B-Instruct   (or any instruct model)
 """
 
+import os
 from datetime import datetime
 
 import streamlit as st
+from dotenv import load_dotenv
 
 from graph.graph_builder import build_graph
+
+load_dotenv()
 
 
 st.set_page_config(
@@ -50,6 +54,19 @@ with st.sidebar:
         "4. *Critic* judges whether the evidence is enough\n"
         "5. *Refiner* rewrites queries to fill gaps identified by the critic (on loop-back)\n"
         "6. *Writer* produces a final cited report"
+    )
+    st.divider()
+    provider = os.getenv("LLM_PROVIDER", "ollama").lower()
+    if provider == "huggingface":
+        model = os.getenv("HF_MODEL", "meta-llama/Llama-3.1-8B-Instruct")
+    else:
+        model = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
+    st.markdown(f"**Model:** `{provider}/{model}`")
+    st.divider()
+    st.warning(
+        "This agent may hallucinate. Cited URLs in the report may not exist — "
+        "always verify sources before relying on them.",
+        icon="⚠️",
     )
     st.divider()
     st.markdown(
