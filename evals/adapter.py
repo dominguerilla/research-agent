@@ -46,9 +46,13 @@ def run(input: dict) -> dict:
 
     final_state = _get_graph().invoke(_initial_state(question, max_iterations))
 
+    report = final_state.get("final_report") or ""
     return {
-        "text": final_state.get("final_report") or "",
-        "sources": final_state.get("sources") or [],
-        "critique": final_state.get("critique"),
-        "iterations_used": final_state.get("iteration", 0),
+        "text": report,
+        "data": {
+            "text": report,
+            "sources": final_state.get("sources") or [],
+            "critique": final_state.get("critique"),
+            "iterations_used": final_state.get("iteration", 0),
+        },
     }
