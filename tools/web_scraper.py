@@ -74,5 +74,5 @@ def scrape_url(url: str) -> str:
     main_content = soup.find("article") or soup.find("main") or soup.find("body")
     main_content = str(soup) if main_content is None else main_content
 
-    return md(str(main_content), heading_style="ATX") 
-    
+    return md(str(main_content), heading_style="ATX")
+
