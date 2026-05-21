@@ -105,7 +105,7 @@ def main() -> None:
             f.flush()
 
     print(f"\nSaved {len(cases)} outputs to {output_path}")
-    print(f"Score them with:  python -m evals.run --from-outputs {output_path}")
+    print(f"Score them with:  python -m evals.run --from-outputs \"{output_path}\"")
 
 
 if __name__ == "__main__":
